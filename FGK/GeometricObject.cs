@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    class Program
+    abstract class GeometricObject
     {
-        static void Main(string[] args)
-        {
-
-        }
+        public Color Color { get; set; }
+        public abstract bool HitTest(Ray ray, ref double distance);
     }
 }
