@@ -19,5 +19,21 @@ namespace FGK
         }
         public Vector3 Origin { get { return origin; } }
         public Vector3 Direction { get { return direction; } }
+        public Vector3 ShowPoint(double distance)
+        {
+            return Origin + Direction * distance;
+        }
+        public void checkHit(GeometricObject g)
+        {
+            double distance = 0;
+            if (g.HitTest(this, ref distance))
+            {
+                Console.WriteLine(" przeciecie w " + this.ShowPoint(distance));
+            }
+            else
+            {
+                Console.WriteLine(" brak przeciecia");
+            }
+        }
     }
 }

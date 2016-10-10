@@ -55,8 +55,13 @@ namespace FGK
         public double LengthSq
         { get { return X * X + Y * Y + Z * Z; } }
         public Vector3 Normalized
-        { get { return this / this.Length; } }
-
+        { get {
+                if (this.Length == 0) { return new Vector3(0, 0, 0); }
+                return this / this.Length; } }
+        public override string ToString()
+        {
+            return this.x.ToString() + " " + this.y.ToString() + " " + this.z.ToString();
+        }
     }
 
 }

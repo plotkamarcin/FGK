@@ -8,7 +8,7 @@ namespace FGK
 {
     abstract class GeometricObject
     {
-        public Color Color { get; set; }
+        //public Color Color { get; set; }
         public abstract bool HitTest(Ray ray, ref double distance);
     }
 }

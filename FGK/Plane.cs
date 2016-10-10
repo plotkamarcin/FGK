@@ -13,11 +13,11 @@ namespace FGK
         Vector3 point;
         /// <summary>Normalna do płaszczyzny</summary>
         Vector3 normal;
-        public Plane(Vector3 point, Vector3 normal, Color color)
+        public Plane(Vector3 point, Vector3 normal)
         {
             this.point = point;
             this.normal = normal;
-            base.Color = color;
+            //base.Color = color;
         }
         public override bool HitTest(Ray ray, ref double distance)
         {

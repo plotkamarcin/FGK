@@ -10,11 +10,10 @@ namespace FGK
     {
         Vector3 center;
         double radius;
-        public Sphere(Vector3 center, double radius, Color color)
+        public Sphere(Vector3 center, double radius)
         {
             this.center = center;
             this.radius = radius;
-            base.Color = color;
         }
         public override bool HitTest(Ray ray, ref double minDistance)
         {
@@ -28,12 +27,13 @@ namespace FGK
             double discSq = Math.Sqrt(disc);
             double denom = 2 * a;
             t = (-b - discSq) / denom;
-            if (t < Ray.Epsilon)
+            if (t < 0)
             { t = (-b + discSq) / denom; }
-            if (t < Ray.Epsilon)
+            if (t < 0)
             { return false; }
             minDistance = t;
             return true;
         }
+
     }
 }
