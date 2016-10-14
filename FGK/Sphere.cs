@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace FGK
 {
@@ -10,10 +11,12 @@ namespace FGK
     {
         Vector3 center;
         double radius;
-        public Sphere(Vector3 center, double radius)
+        Color color;
+        public Sphere(Vector3 center, double radius, Color color)
         {
             this.center = center;
             this.radius = radius;
+            base.Color = color;
         }
         public override bool HitTest(Ray ray, ref double minDistance)
         {

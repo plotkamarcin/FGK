@@ -7,9 +7,9 @@ using System.Drawing;
 
 namespace FGK
 {
-    abstract class GeometricObject
+    class HitInfo
     {
+        public bool HitObject { get; set; }
         public Color Color { get; set; }
-        public abstract bool HitTest(Ray ray, ref double distance);
     }
 }
