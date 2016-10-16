@@ -54,6 +54,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Raytracer.cs" />
+    <Compile Include="RenderedImagePreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenderedImagePreview.Designer.cs">
+      <DependentUpon>RenderedImagePreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sphere.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Vector3.cs" />
@@ -61,6 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RenderedImagePreview.resx">
+      <DependentUpon>RenderedImagePreview.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

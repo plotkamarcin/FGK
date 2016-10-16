@@ -12,9 +12,11 @@ namespace FGK
     class Program
     {
         static double eps=0.00001;
+        
         [STAThread]
         static void Main(string[] args)
         {
+                         
             Sphere s = new Sphere(new Vector3(0, 0, 0), 10.0,System.Drawing.Color.Aqua);
             Ray r1 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 0, 20));
             Ray r2 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 10, 0));
@@ -26,10 +28,7 @@ namespace FGK
             r2.checkHit(s);
             r3.checkHit(s);
             r2.checkHit(plane);
-            // Stworzenie świata (kolor tła = łagodny niebieski)
             World world = new World(Color.PowderBlue);
-
-            // Trzy różnokolorowe kule (patrz obrazek)
  
             world.Add(new Sphere(new Vector3(0, 0, 4), 2, Color.Blue));
             world.Add(new Sphere(new Vector3(2, 0, 5), 1, Color.Red));
@@ -75,17 +74,15 @@ namespace FGK
             world.Add(new Plane(new Vector3(3.333, -0.0002, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 156)));
             world.Add(new Plane(new Vector3(3.333, 1.666, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 204)));
             world.Add(new Plane(new Vector3(3.333, 3.333, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 255)));
-            // Kamera w punkcie (0, 0, -5), skierowana w kierunku kul. Obszar obejmowany kamerą to 5x5.
+
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));
 
             Raytracer tracer = new Raytracer();
 
-            // Raytracing!
             Bitmap image = tracer.Raytrace(world, camera, new Size(1024, 1024));
-
-            // Zapisanie obrazka w jakimś miłym miejscu na dysku.
+           // RenderedImagePreview r = new RenderedImagePreview(image);
+            //System.Windows.Forms.Application.Run(r);
             image.Save("raytraced.png");
-            Process.Start("raytraced.png");
             Console.ReadKey();
         }
     }

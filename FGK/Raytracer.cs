@@ -9,12 +9,16 @@ namespace FGK
 {
     class Raytracer
     {
+
         public Bitmap Raytrace(World world, Camera camera, Size imageSize)
         {
+            
             Bitmap bmp = new Bitmap(imageSize.Width, imageSize.Height);
-
-            for (int x = 0; x < imageSize.Width; x++)
-                for (int y = 0; y < imageSize.Height; y++)
+            RenderedImagePreview r = new RenderedImagePreview(bmp);
+            r.Visible = true;
+            for (int y = 0; y < imageSize.Height; y++)
+            {       
+                for (int x = 0; x < imageSize.Width; x++)
                 {
                     // przeskalowanie x i y do zakresu [-1; 1]
                     Vector2 pictureCoordinates = new Vector2(
@@ -30,8 +34,13 @@ namespace FGK
                     if (info.HitObject) { color = info.Color; }
                     else { color = world.BackgroundColor; }
                     bmp.SetPixel(x, y, color);
+                    
                 }
-
+                //bmp.Save("temp" + x + ".png");
+                r.pictureBox1.Image = bmp;
+                r.pictureBox1.Refresh();
+            }
+            Console.WriteLine("Rendering zakonczony.");
             return bmp;
         }
     }
