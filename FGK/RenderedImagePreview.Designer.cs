@@ -48,7 +48,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.pictureBox1);
+            this.Location = new System.Drawing.Point(100, 100);
             this.Name = "RenderedImagePreview";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "RenderedImagePreview";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

@@ -20,7 +20,7 @@ namespace FGK
             Sphere s = new Sphere(new Vector3(0, 0, 0), 10.0,System.Drawing.Color.Aqua);
             Ray r1 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 0, 20));
             Ray r2 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 10, 0));
-            Ray r3 = new Ray(new Vector3(-10, 10, 0), new Vector3(0, 1, 1));
+            Ray r3 = new Ray(new Vector3(-10, 10, 0), new Vector3(1, 0, 0));
 
             Plane plane = new Plane(new Vector3(0, 0, 0), new Vector3(0, 1, 1),Color.Gainsboro);
 
@@ -80,8 +80,6 @@ namespace FGK
             Raytracer tracer = new Raytracer();
 
             Bitmap image = tracer.Raytrace(world, camera, new Size(1024, 1024));
-           // RenderedImagePreview r = new RenderedImagePreview(image);
-            //System.Windows.Forms.Application.Run(r);
             image.Save("raytraced.png");
             Console.ReadKey();
         }
