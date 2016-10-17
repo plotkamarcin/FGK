@@ -34,7 +34,8 @@ namespace FGK
                     if (info.HitObject) { color = info.Color; }
                     else { color = world.BackgroundColor; }
                     //bmp.SetPixel(x, y, color);
-                    bmp.SetPixel(x, y, AdaptiveAliasing(camera,world,pictureCoordinates,5));
+                    Color aliasedColor = AdaptiveAliasing(camera, world, pictureCoordinates, 5);
+                    bmp.SetPixel(x, y, aliasedColor);
                     
                 }
                 //bmp.Save("temp" + x + ".png");
@@ -88,7 +89,7 @@ namespace FGK
                 return color0;
             }
             else
-                return Color.FromArgb((colorA.R + colorB.R + colorC.R + colorD.R) / 4, (colorA.R + colorB.R + colorC.R + colorD.R) / 4, (colorA.R + colorB.R + colorC.R + colorD.R) / 4);
+                return Color.FromArgb((colorA.R + colorB.R + colorC.R + colorD.R) / 4, (colorA.G + colorB.G + colorC.G + colorD.G) / 4, (colorA.B + colorB.B + colorC.B + colorD.B) / 4);
         }
     }
 }
