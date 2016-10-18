@@ -29,7 +29,7 @@ namespace FGK
             r3.checkHit(s);
             r2.checkHit(plane);
             World world = new World(Color.PowderBlue);
- 
+
             world.Add(new Sphere(new Vector3(0, 0, 4), 2, Color.Blue));
             world.Add(new Sphere(new Vector3(2, 0, 5), 1, Color.Red));
 
@@ -76,7 +76,7 @@ namespace FGK
             world.Add(new Plane(new Vector3(3.333, 3.333, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 255)));
 
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));
-
+            Camera perspectiveCam = new Perspective(new Vector3(0, 1, -8),new Vector3(0, 0, 0),new Vector3(0, -1, 0),1);
             Raytracer tracer = new Raytracer();
 
             Bitmap image = tracer.Raytrace(world, camera, new Size(1024, 1024));

@@ -49,6 +49,8 @@
     <Compile Include="GeometricObject.cs" />
     <Compile Include="HitInfo.cs" />
     <Compile Include="Orthogonal.cs" />
+    <Compile Include="OrthonormalBasis.cs" />
+    <Compile Include="Perspective.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
