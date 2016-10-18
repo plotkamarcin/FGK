@@ -46,8 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="ColorRGB.cs" />
     <Compile Include="GeometricObject.cs" />
     <Compile Include="HitInfo.cs" />
+    <Compile Include="ObjParser\Extent.cs" />
+    <Compile Include="ObjParser\Face.cs" />
+    <Compile Include="ObjParser\IType.cs" />
+    <Compile Include="ObjParser\Obj.cs" />
+    <Compile Include="ObjParser\TextureVertex.cs" />
+    <Compile Include="ObjParser\Vertex.cs" />
     <Compile Include="Orthogonal.cs" />
     <Compile Include="OrthonormalBasis.cs" />
     <Compile Include="Perspective.cs" />

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using ObjParser;
 
 namespace FGK
 {
@@ -74,6 +75,10 @@ namespace FGK
             world.Add(new Plane(new Vector3(3.333, -0.0002, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 156)));
             world.Add(new Plane(new Vector3(3.333, 1.666, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 204)));
             world.Add(new Plane(new Vector3(3.333, 3.333, 6), new Vector3(0, 0, 1), Color.FromArgb(255, 255, 255)));
+
+            Obj parser = new Obj();
+            parser.LoadObj("cone.obj");
+
 
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));
             Camera perspectiveCam = new Perspective(new Vector3(0, 1, -8),new Vector3(0, 0, 0),new Vector3(0, -1, 0),1);
