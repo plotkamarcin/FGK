@@ -36,7 +36,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 600);
+            this.pictureBox1.Size = new System.Drawing.Size(883, 660);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.WaitOnLoad = true;
@@ -46,9 +46,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(884, 661);
             this.Controls.Add(this.pictureBox1);
-            this.Location = new System.Drawing.Point(100, 100);
+            this.Location = new System.Drawing.Point(50, 50);
             this.Name = "RenderedImagePreview";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "RenderedImagePreview";
