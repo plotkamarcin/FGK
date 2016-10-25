@@ -40,13 +40,14 @@ namespace FGK
                     Vector2 C = new Vector2(pictureCoordinates.X - searchArea, pictureCoordinates.Y - searchArea);
                     Vector2 D = new Vector2(pictureCoordinates.X + searchArea, pictureCoordinates.Y - searchArea);
 
-                    Color aliasedColor = AdaptiveAliasing(camera, world, A, B, C, D,color, 2);
-                    bmp.SetPixel(x, y, aliasedColor);
-
+                    //Color aliasedColor = AdaptiveAliasing(camera, world, A, B, C, D,color, 0);
+                    bmp.SetPixel(x, y, color);
+                   
                 }
                 //bmp.Save("temp" + x + ".png");
                 r.pictureBox1.Image = bmp;
                 r.pictureBox1.Refresh();
+                //Console.WriteLine("{0:F2}", "Rendering... " + ((double)y / 1024.0) * 100 + "%");
             }
             Console.WriteLine("Rendering zakonczony.");
             return bmp;
