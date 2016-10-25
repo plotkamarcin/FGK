@@ -40,7 +40,7 @@ namespace FGK
                     Vector2 C = new Vector2(pictureCoordinates.X - searchArea, pictureCoordinates.Y - searchArea);
                     Vector2 D = new Vector2(pictureCoordinates.X + searchArea, pictureCoordinates.Y - searchArea);
 
-                    Color aliasedColor = AdaptiveAliasing(camera, world, A, B, C, D,color, 5);
+                    Color aliasedColor = AdaptiveAliasing(camera, world, A, B, C, D,color, 2);
                     bmp.SetPixel(x, y, aliasedColor);
 
                 }
@@ -89,11 +89,16 @@ namespace FGK
 
             if (samplesDepth == 0 || color0.Equals(colorA) && color0.Equals(colorB) && color0.Equals(colorC) && color0.Equals(colorD))
             {
-                return color;
+                Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
+                Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
+                Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
+                Color tmp4 = Color.FromArgb((colorD.R + color0.R) / 2, (colorD.G + color0.G) / 2, (colorD.B + color0.B) / 2);
+                Color sum = Color.FromArgb((tmp1.R + tmp2.R + tmp3.R + tmp4.R) / 4, (tmp1.G + tmp2.G + tmp3.G + tmp4.G) / 4, (tmp1.B + tmp2.B + tmp3.B + tmp4.B) / 4);
+                return sum;
             }
             else
             {
-                if (!(color0.Equals(colorA)))
+                if (!(colorA.Equals(color.B) && colorA.Equals(colorD)))
                 {
                     Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
                     Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
@@ -101,23 +106,24 @@ namespace FGK
                     Color sum = Color.FromArgb((tmp1.R + tmp2.R + color.R + tmp4.R) / 4, (tmp1.G + tmp2.G + color.G + tmp4.G) / 4, (tmp1.B + tmp2.B + color.B + tmp4.B) / 4);
                     return AdaptiveAliasing(c, w, A, new Vector2((A.X + B.X) / 2, A.Y), middlePoint, new Vector2(A.X, (A.Y + D.Y) / 2), sum, samplesDepth - 1);
                 }
-                if (!(color0.Equals(colorB)))
+                if (!(colorB.Equals(color.A) && colorB.Equals(colorC)))
                 {
                     Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
                     Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
                     Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
                     Color sum = Color.FromArgb((tmp1.R + tmp2.R + tmp3.R + color.R) / 4, (tmp1.G + tmp2.G + tmp3.G + color.G) / 4, (tmp1.B + tmp2.B + tmp3.B + color.B) / 4);
-                    return AdaptiveAliasing(c, w, new Vector2((A.X + B.X) / 2, A.Y), B, new Vector2(C.X, (C.Y + B.Y) / 2), middlePoint, sum, samplesDepth - 1);
+                    return  AdaptiveAliasing(c, w, new Vector2((A.X + B.X) / 2, A.Y), B, new Vector2(C.X, (C.Y + B.Y) / 2), middlePoint, sum, samplesDepth - 1);
                 }
-                if (!(color0.Equals(colorC)))
+                if (!(colorC.Equals(colorB) && !colorB.Equals(colorD)))
                 {
                     Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
                     Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
                     Color tmp4 = Color.FromArgb((colorD.R + color0.R) / 2, (colorD.G + color0.G) / 2, (colorD.B + color0.B) / 2);
                     Color sum = Color.FromArgb((color.R + tmp2.R + tmp3.R + tmp4.R) / 4, (color.G + tmp2.G + tmp3.G + tmp4.G) / 4, (color.B + tmp2.B + tmp3.B + tmp4.B) / 4);
-                    return AdaptiveAliasing(c, w, middlePoint, new Vector2(B.X, (B.Y + C.Y) / 2), C, new Vector2((C.X + D.X) / 2, C.Y), sum, samplesDepth - 1);
+                   return  AdaptiveAliasing(c, w, middlePoint, new Vector2(B.X, (B.Y + C.Y) / 2), C, new Vector2((C.X + D.X) / 2, C.Y), sum, samplesDepth - 1);
+                 
                 }
-                if (!(color0.Equals(colorD)))
+                if (!(colorD.Equals(colorA) && !colorD.Equals(colorC)))
                 {
                     Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
                     Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);

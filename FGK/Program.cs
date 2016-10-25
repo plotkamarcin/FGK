@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using ObjParser;
+using ObjParser.Types;
 
 namespace FGK
 {
@@ -78,8 +79,16 @@ namespace FGK
 
             Obj parser = new Obj();
             parser.LoadObj("cone.obj");
-
-
+            Mesh cone = new Mesh();
+            for(int i = 0; i < parser.FaceList.Count; i++)
+            {
+                cone.triangles.Add(new Triangle(new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Z), Color.DarkViolet));
+            }
+            foreach(Triangle t in cone.triangles)
+            {
+                world.Add(t);
+            }
+            
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));
             Camera perspectiveCam = new Perspective(new Vector3(0, 1, -8),new Vector3(0, 0, 0),new Vector3(0, -1, 0),1);
             Raytracer tracer = new Raytracer();
