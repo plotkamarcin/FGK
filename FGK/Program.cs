@@ -32,12 +32,12 @@ namespace FGK
             r2.checkHit(plane);
             World world = new World(Color.PowderBlue);
 
-            world.Add(new Sphere(new Vector3(0, 0, 4), 2, Color.Blue));
-            world.Add(new Sphere(new Vector3(2, 0, 5), 1, Color.Red));
+            //world.Add(new Sphere(new Vector3(0, 0, 4), 2, Color.Blue));
+            //world.Add(new Sphere(new Vector3(2, 0, 5), 1, Color.Red));
 
             Obj parser = new Obj();
-            parser.LoadObj("cone.obj");
-            Mesh cone = new Mesh();
+            parser.LoadObj("teapot.obj");
+            Mesh externalMesh = new Mesh();
 
             Random rnd = new Random();
             for (int i = 0; i < parser.FaceList.Count; i++)
@@ -45,16 +45,17 @@ namespace FGK
                 Vector3 p1 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Z);
                 Vector3 p2 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Z);
                 Vector3 p3 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Z);
-                cone.triangles.Add(new Triangle(p1, p2, p3, Color.FromArgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256))));
+                externalMesh.triangles.Add(new Triangle(p1, p2, p3, Color.FromArgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256))));
             }
-            foreach (Triangle t in cone.triangles)
+            foreach (Triangle t in externalMesh.triangles)
             {
-                t.translateTriangle(0, 0, 5);
+                t.translateTriangle(0, 0, 0);
                 world.Add(t);
             }
+            world.Add(externalMesh.triangles[1]);
 
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));
-            Camera perspectiveCam = new Perspective(new Vector3(0, 0, -8), new Vector3(0, 0, 0), new Vector3(0, -1, 0), 1);
+            Camera perspectiveCam = new Perspective(new Vector3(0, 0, -8), new Vector3(0, 0, 0), new Vector3(0, -1, 0), 2);
             Raytracer tracer = new Raytracer();
 
             Bitmap image = tracer.Raytrace(world, perspectiveCam, new Size(1024, 1024));

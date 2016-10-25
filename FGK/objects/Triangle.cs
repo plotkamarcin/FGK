@@ -22,7 +22,7 @@ namespace FGK
             this.Color = c;
         }
 
-        public override bool HitTest(Ray ray, ref double distance)
+        public bool otherHitTest(Ray ray, ref double distance)
         {
             Vector3 A = p2 - p1;
             Vector3 B = p3 - p1;
@@ -82,6 +82,36 @@ namespace FGK
             this.p3.y += y;
             this.p3.z += z;
 
+
+        }
+
+        public override bool HitTest(Ray ray, ref double distance)
+        {
+            //Moller-trumbone method
+            double kEpsilon = 0.0001;
+            Vector3 v0v1 = p2 - p1;
+            Vector3 v0v2 = p3 - p1;
+            Vector3 pvec = Vector3.Cross(ray.Direction, v0v2);
+            double det = v0v1.Dot(pvec);
+
+            // if the determinant is negative the triangle is backfacing
+            // if the determinant is close to 0, the ray misses the triangle
+            if (det <= kEpsilon || det <=0) return false;
+
+            // ray and triangle are parallel if det is close to 0
+            if (Math.Abs((det)) <= kEpsilon) return false;
+
+            double invDet = 1 / det;
+           Vector3 tvec = ray.Origin - p1;
+            double u = tvec.Dot(pvec) * invDet;
+            if (u <= 0 || u >= 1) return false;
+
+            Vector3 qvec = Vector3.Cross(tvec,v0v1);
+            double v = ray.Direction.Dot(qvec) * invDet;
+            if (v <= 0 || u + v >=1) return false;
+            double t = v0v2.Dot(qvec) * invDet;
+
+            return true;
 
         }
     }
