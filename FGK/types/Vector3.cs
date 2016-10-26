@@ -24,6 +24,11 @@ namespace FGK
         public double Z
         { get { return z; } set { z = value; } }
 
+        public static Vector3 operator -(Vector3 vecA)
+        {
+            return new Vector3(-vecA.X, -vecA.Y, -vecA.Z);
+        }
+
         public static Vector3 operator +(Vector3 vecA, Vector3 vecB)
         {
             return new Vector3(vecA.X + vecB.X, vecA.Y + vecB.Y, vecA.Z + vecB.Z);
@@ -49,6 +54,11 @@ namespace FGK
             return new Vector3(vecA.Y * vecB.Z - vecA.Z * vecB.Y,
             vecA.Z * vecB.X - vecA.X * vecB.Z,
             vecA.X * vecB.Y - vecA.Y * vecB.X);
+        }
+        public static Vector3 Reflect(Vector3 vec, Vector3 normal)
+        {
+            double dot = normal.Dot(vec);
+            return normal * dot * 2 - vec;
         }
         public double Length
         { get { return Math.Sqrt(X * X + Y * Y + Z * Z); } }

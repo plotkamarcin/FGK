@@ -11,14 +11,13 @@ namespace FGK
     {
         Vector3 center;
         double radius;
-        Color color;
-        public Sphere(Vector3 center, double radius, Color color)
+        public Sphere(Vector3 center, double radius, Material mat)
         {
             this.center = center;
             this.radius = radius;
-            base.Color = color;
+            base.Material = mat;
         }
-        public override bool HitTest(Ray ray, ref double minDistance)
+        public override bool HitTest(Ray ray, ref double minDistance, ref Vector3 outNormal)
         {
             double t;
             Vector3 distance = ray.Origin - center;
@@ -34,6 +33,9 @@ namespace FGK
             { t = (-b + discSq) / denom; }
             if (t < 0)
             { return false; }
+            minDistance = t;
+            Vector3 hitPoint = (ray.Origin + ray.Direction * t);
+            outNormal = (hitPoint - center).Normalized;
             minDistance = t;
             return true;
         }

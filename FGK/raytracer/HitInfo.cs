@@ -9,7 +9,14 @@ namespace FGK
 {
     class HitInfo
     {
-        public bool HitObject { get; set; }
-        public Color Color { get; set; }
+        public GeometricObject HitObject { get; set; }
+        /// <summary>Referencja do świata który renderujemy</summary>
+        public World World { get; set; }
+        /// <summary>Normalna do punktu trafienia</summary>
+        public Vector3 Normal { get; set; }
+        /// <summary>Punkt trafienia (w koordynatach świata)</summary>
+        public Vector3 HitPoint { get; set; }
+        /// <summary>Promień który trafił obiekt</summary>
+        public Ray Ray { get; set; }
     }
 }

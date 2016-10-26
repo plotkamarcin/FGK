@@ -26,7 +26,8 @@ namespace FGK
         public void checkHit(GeometricObject g)
         {
             double distance = 0;
-            if (g.HitTest(this, ref distance))
+            Vector3 nil = new Vector3(0, 0, 0);
+            if (g.HitTest(this, ref distance,ref nil))
             {
                 Console.WriteLine(" przeciecie w " + this.ShowPoint(distance));
             }

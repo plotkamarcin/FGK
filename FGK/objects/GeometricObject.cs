@@ -9,7 +9,7 @@ namespace FGK
 {
     abstract class GeometricObject
     {
-        public Color Color { get; set; }
-        public abstract bool HitTest(Ray ray, ref double distance);
+        public Material Material { get; set; }
+        public abstract bool HitTest(Ray ray, ref double distance, ref Vector3 normal);
     }
 }

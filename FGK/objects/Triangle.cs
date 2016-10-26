@@ -9,20 +9,20 @@ namespace FGK
 {
     class Triangle : GeometricObject
     {
-        Vector3 p1;
-        Vector3 p2;
-        Vector3 p3;
-        Color color;
+        public Vector3 p1 { get; private set; }
+        public Vector3 p2 { get; private set; }
+        public Vector3 p3 { get; private set; }
+        public Vector3 normal { get; private set; }
 
-        public Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Color c)
+        public Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Material mat)
         {
             this.p1 = p1;
             this.p2 = p2;
             this.p3 = p3;
-            this.Color = c;
+            base.Material = mat;
         }
 
-        public bool otherHitTest(Ray ray, ref double distance)
+        public bool otherHitTest(Ray ray, ref double distance, ref Vector3 normal)
         {
             Vector3 A = p2 - p1;
             Vector3 B = p3 - p1;
@@ -66,6 +66,7 @@ namespace FGK
             {
                 return false; // P is on the right side 
             }
+            normal = N;
             return true;
         }
         public void translateTriangle(double x, double y, double z)
@@ -85,14 +86,25 @@ namespace FGK
 
         }
 
-        public override bool HitTest(Ray ray, ref double distance)
+        public override bool HitTest(Ray ray, ref double distance, ref Vector3 outNormal)
         {
             //Moller-trumbone method
-            double kEpsilon = 0.0001;
+            double kEpsilon = 0.000001;
             Vector3 v0v1 = p2 - p1;
             Vector3 v0v2 = p3 - p1;
+            Vector3 v0v3 = p2 - p3;
+            normal = Vector3.Cross(v0v2, v0v1).Normalized;
+
             Vector3 pvec = Vector3.Cross(ray.Direction, v0v2);
             double det = v0v1.Dot(pvec);
+
+            double d = normal.Dot(p1);
+            double t = -(normal.Dot(ray.Origin) + d) / normal.Dot(ray.Direction);
+            Vector3 hitPoint = ray.Origin + ray.Direction * t;
+            Vector3 hitPointVector = hitPoint - p1;
+            Vector3 hitPointNormal = Vector3.Cross( hitPointVector, ray.Direction);
+
+            Vector3 HitNormal = -ray.Direction.Normalized - normal * 2*normal.Dot(-ray.Direction.Normalized);
 
             // if the determinant is negative the triangle is backfacing
             // if the determinant is close to 0, the ray misses the triangle
@@ -109,10 +121,10 @@ namespace FGK
             Vector3 qvec = Vector3.Cross(tvec,v0v1);
             double v = ray.Direction.Dot(qvec) * invDet;
             if (v <= 0 || u + v >=1) return false;
-            double t = v0v2.Dot(qvec) * invDet;
-
+            double tdist = v0v2.Dot(qvec) * invDet;
+            distance = tdist;
+            outNormal = hitPointNormal;
             return true;
-
         }
     }
 }
