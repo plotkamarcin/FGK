@@ -51,6 +51,7 @@
     <Compile Include="objects\Mesh.cs" />
     <Compile Include="objects\PointLight.cs" />
     <Compile Include="objects\Triangle.cs" />
+    <Compile Include="ObjParser\Normal.cs" />
     <Compile Include="raytracer\Camera.cs" />
     <Compile Include="types\ColorRGB.cs" />
     <Compile Include="objects\GeometricObject.cs" />

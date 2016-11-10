@@ -14,6 +14,7 @@ namespace ObjParser.Types
 
         public int[] VertexIndexList { get; set; }
         public int[] TextureVertexIndexList { get; set; }
+        public int[] NormalsVertexIndexList { get; set; }
 
         public void LoadFromStringArray(string[] data)
         {
@@ -26,8 +27,9 @@ namespace ObjParser.Types
             int vcount = data.Count() - 1;
             VertexIndexList = new int[vcount];
             TextureVertexIndexList = new int[vcount];
+            NormalsVertexIndexList = new int[vcount];
 
-			bool success;
+            bool success;
 
             for (int i = 0; i < vcount; i++)
             {
@@ -43,6 +45,9 @@ namespace ObjParser.Types
                     success = int.TryParse(parts[1], out vindex);
                     if (!success) throw new ArgumentException("Could not parse parameter as int");
                     TextureVertexIndexList[i] = vindex;
+                    success = int.TryParse(parts[2], out vindex);
+                    if (!success) throw new ArgumentException("Could not parse parameter as int");
+                    NormalsVertexIndexList[i] = vindex;
                 }
             }
         }

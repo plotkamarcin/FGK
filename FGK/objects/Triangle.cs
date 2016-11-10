@@ -13,6 +13,9 @@ namespace FGK
         public Vector3 p2 { get; private set; }
         public Vector3 p3 { get; private set; }
         public Vector3 normal { get; private set; }
+        public Vector3 n1 { get; private set; }
+        public Vector3 n2 { get; private set; }
+        public Vector3 n3 { get; private set; }
 
         public Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Material mat)
         {
@@ -20,6 +23,13 @@ namespace FGK
             this.p2 = p2;
             this.p3 = p3;
             base.Material = mat;
+        }
+
+        public void setVertexNormals(Vector3 n1, Vector3 n2, Vector3 n3)
+        {
+            this.n1 = n1;
+            this.n2 = n2;
+            this.n3 = n3;
         }
 
         public bool otherHitTest(Ray ray, ref double distance, ref Vector3 normal)
@@ -95,6 +105,7 @@ namespace FGK
             Vector3 v0v3 = p2 - p3;
             normal = Vector3.Cross(v0v2, v0v1).Normalized;
 
+
             Vector3 pvec = Vector3.Cross(ray.Direction, v0v2);
             double det = v0v1.Dot(pvec);
 
@@ -103,10 +114,9 @@ namespace FGK
             Vector3 hitPoint = ray.Origin + ray.Direction * t;
             Vector3 hitPointVector = hitPoint - p1;
             Vector3 hitPointNormal = Vector3.Cross( hitPointVector, ray.Direction);
+            
 
-            Vector3 HitNormal = -ray.Direction.Normalized - normal * 2*normal.Dot(-ray.Direction.Normalized);
-
-            // if the determinant is negative the triangle is backfacing
+             // if the determinant is negative the triangle is backfacing
             // if the determinant is close to 0, the ray misses the triangle
             if (det <= kEpsilon || det <=0) return false;
 
@@ -122,8 +132,11 @@ namespace FGK
             double v = ray.Direction.Dot(qvec) * invDet;
             if (v <= 0 || u + v >=1) return false;
             double tdist = v0v2.Dot(qvec) * invDet;
-            distance = tdist;
-            outNormal = hitPointNormal;
+            distance = t;
+                Vector3 N = (n1 * v + n2 * u + n3 * (1 - u - v)).Normalized;
+            //v = α*va + β*vb + (1 - α - β)*vc
+            //n = α * na + β * nb + (1 - α - β) * nc
+            outNormal = N;
             return true;
         }
     }

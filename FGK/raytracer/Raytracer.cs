@@ -61,6 +61,7 @@ namespace FGK
             Material material = info.HitObject.Material;
             foreach (var light in world.Lights)
             {
+                //if (world.AnyObstacleBetween(info.HitPoint, light.Position)) { continue; }
                 finalColor += material.Radiance(light, info);
             }
             return finalColor;

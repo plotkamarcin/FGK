@@ -54,6 +54,27 @@ namespace FGK
             return result;
         }
 
+        public bool AnyObstacleBetween(Vector3 pointA, Vector3 pointB)
+        {
+            // odległość od cieniowanego punktu do światła
+            Vector3 vectorAB = pointB - pointA;
+            double distAB = vectorAB.Length;
+            double currDistance = Ray.Huge;
+            // promień (półprosta) z cieniowanego punktu w kierunku światła
+            Ray ray = new Ray(pointA, vectorAB);
+            Vector3 ignored = default(Vector3);
+            foreach (var obj in objects)
+            {
+                // jeśli jakiś obiekt jest na drodze promienia oraz trafienie
+                // nastąpiło bliżej niż odległość punktu do światła,
+                // obiekt jest w cieniu
+                if (obj.HitTest(ray, ref currDistance, ref ignored) && currDistance < distAB)
+                { return true; }
+            }
+            // obiekt nie jest w cieniu
+            return false;
+        }
+
         public ColorRgb BackgroundColor { get; private set; }
         public List<GeometricObject> Objects { get { return objects; } }
         public List<PointLight> Lights { get { return lights; } }
