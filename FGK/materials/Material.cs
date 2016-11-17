@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    abstract class Material
+    public abstract class Material
     {
         public abstract ColorRgb Radiance(PointLight light, HitInfo hit);
     }

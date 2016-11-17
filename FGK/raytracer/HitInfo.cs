@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace FGK
 {
-    class HitInfo
+    public class HitInfo
     {
         public GeometricObject HitObject { get; set; }
         /// <summary>Referencja do świata który renderujemy</summary>

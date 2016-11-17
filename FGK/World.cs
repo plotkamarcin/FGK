@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace FGK
 {
-    class World
+   public class World
     {
         List<GeometricObject> objects;
         List<PointLight> lights;

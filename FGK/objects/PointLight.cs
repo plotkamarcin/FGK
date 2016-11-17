@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    class PointLight
+    public class PointLight
     {
         public PointLight(Vector3 position, ColorRgb color)
         {

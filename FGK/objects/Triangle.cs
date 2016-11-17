@@ -9,33 +9,43 @@ namespace FGK
 {
     class Triangle : GeometricObject
     {
-        public Vector3 p1 { get; private set; }
-        public Vector3 p2 { get; private set; }
-        public Vector3 p3 { get; private set; }
-        public Vector3 normal { get; private set; }
-        public Vector3 n1 { get; private set; }
-        public Vector3 n2 { get; private set; }
-        public Vector3 n3 { get; private set; }
+        public Vector3 P1 { get; private set; }
+        public Vector3 P2 { get; private set; }
+        public Vector3 P3 { get; private set; }
+        public Vector3 Normal { get; private set; }
+        public Vector3 N1 { get; private set; }
+        public Vector3 N2 { get; private set; }
+        public Vector3 N3 { get; private set; }
+        public Vector2 Vt1 { get; private set; }
+        public Vector2 Vt2 { get; private set; }
+        public Vector2 Vt3 { get; private set; }
 
         public Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Material mat)
         {
-            this.p1 = p1;
-            this.p2 = p2;
-            this.p3 = p3;
+            this.P1 = p1;
+            this.P2 = p2;
+            this.P3 = p3;
             base.Material = mat;
         }
 
-        public void setVertexNormals(Vector3 n1, Vector3 n2, Vector3 n3)
+        public void SetVertexNormals(Vector3 n1, Vector3 n2, Vector3 n3)
         {
-            this.n1 = n1;
-            this.n2 = n2;
-            this.n3 = n3;
+            this.N1 = n1;
+            this.N2 = n2;
+            this.N3 = n3;
         }
 
-        public bool otherHitTest(Ray ray, ref double distance, ref Vector3 normal)
+        public void SetTextureCoords(Vector2 vt1, Vector2 vt2, Vector2 vt3)
         {
-            Vector3 A = p2 - p1;
-            Vector3 B = p3 - p1;
+            this.Vt1 = vt1;
+            this.Vt2 = vt2;
+            this.Vt3 = vt3;
+        }
+
+        public bool OtherHitTest(Ray ray, ref double distance, ref Vector3 normal)
+        {
+            Vector3 A = P2 - P1;
+            Vector3 B = P3 - P1;
             Vector3 C = Vector3.Cross(A, B);
             Vector3 N=C.Normalized;
             double area2 = N.Length;
@@ -55,22 +65,22 @@ namespace FGK
             Vector3 Phit = ray.Origin + (ray.Direction*t);
 
             Vector3 perpendicular;
-            Vector3 edge0 = p2 - p1;
-            Vector3 vp0 = Phit - p1;
+            Vector3 edge0 = P2 - P1;
+            Vector3 vp0 = Phit - P1;
             perpendicular = Vector3.Cross(edge0, vp0);
             if (N.Dot(perpendicular) < 0)
             {
                 return false; // P is on the right side 
             }
-            Vector3 edge1 = p3 - p2;
-            Vector3 vp1 = Phit - p2;
+            Vector3 edge1 = P3 - P2;
+            Vector3 vp1 = Phit - P2;
             perpendicular = Vector3.Cross(edge1, vp1);
             if (N.Dot(perpendicular) < 0)
             {
                 return false; // P is on the right side 
             }
-            Vector3 edge2 = p1 - p3;
-            Vector3 vp2 = Phit - p3;
+            Vector3 edge2 = P1 - P3;
+            Vector3 vp2 = Phit - P3;
             perpendicular = Vector3.Cross(edge2, vp2);
             if (N.Dot(perpendicular) < 0)
             {
@@ -79,19 +89,19 @@ namespace FGK
             normal = N;
             return true;
         }
-        public void translateTriangle(double x, double y, double z)
+        public void TranslateTriangle(double x, double y, double z)
         {
-            this.p1.x += x;
-            this.p1.y += y;
-            this.p1.z += z;
+            this.P1.x += x;
+            this.P1.y += y;
+            this.P1.z += z;
 
-            this.p2.x += x;
-            this.p2.y += y;
-            this.p2.z += z;
+            this.P2.x += x;
+            this.P2.y += y;
+            this.P2.z += z;
 
-            this.p3.x += x;
-            this.p3.y += y;
-            this.p3.z += z;
+            this.P3.x += x;
+            this.P3.y += y;
+            this.P3.z += z;
 
 
         }
@@ -100,19 +110,19 @@ namespace FGK
         {
             //Moller-trumbone method
             double kEpsilon = 0.000001;
-            Vector3 v0v1 = p2 - p1;
-            Vector3 v0v2 = p3 - p1;
-            Vector3 v0v3 = p2 - p3;
-            normal = Vector3.Cross(v0v2, v0v1).Normalized;
+            Vector3 v0v1 = P2 - P1;
+            Vector3 v0v2 = P3 - P1;
+            Vector3 v0v3 = P2 - P3;
+            Normal = Vector3.Cross(v0v2, v0v1).Normalized;
 
 
             Vector3 pvec = Vector3.Cross(ray.Direction, v0v2);
             double det = v0v1.Dot(pvec);
 
-            double d = normal.Dot(p1);
-            double t = -(normal.Dot(ray.Origin) + d) / normal.Dot(ray.Direction);
+            double d = Normal.Dot(P1);
+            double t = -(Normal.Dot(ray.Origin) + d) / Normal.Dot(ray.Direction);
             Vector3 hitPoint = ray.Origin + ray.Direction * t;
-            Vector3 hitPointVector = hitPoint - p1;
+            Vector3 hitPointVector = hitPoint - P1;
             Vector3 hitPointNormal = Vector3.Cross( hitPointVector, ray.Direction);
             
 
@@ -124,7 +134,7 @@ namespace FGK
             if (Math.Abs((det)) <= kEpsilon) return false;
 
             double invDet = 1 / det;
-           Vector3 tvec = ray.Origin - p1;
+           Vector3 tvec = ray.Origin - P1;
             double u = tvec.Dot(pvec) * invDet;
             if (u <= 0 || u >= 1) return false;
 
@@ -133,11 +143,15 @@ namespace FGK
             if (v <= 0 || u + v >=1) return false;
             double tdist = v0v2.Dot(qvec) * invDet;
             distance = t;
-                Vector3 N = (n1 * v + n2 * u + n3 * (1 - u - v)).Normalized;
+           
+            Vector3 N = (N1 * v + N2 * u + N3 * (1 - u - v)).Normalized;
+            this.TextureCoords = (Vt1 * v + Vt2 * u + Vt3*(1-u-v));
+            //this.TextureCoords = new Vector2(u, v);
             //v = α*va + β*vb + (1 - α - β)*vc
             //n = α * na + β * nb + (1 - α - β) * nc
             outNormal = N;
             return true;
         }
+
     }
 }

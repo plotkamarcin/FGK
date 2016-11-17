@@ -14,8 +14,10 @@ namespace FGK
         {
 
             Bitmap bmp = new Bitmap(imageSize.Width, imageSize.Height);
-            RenderedImagePreview r = new RenderedImagePreview(bmp);
-            r.Visible = true;
+            RenderedImagePreview r = new RenderedImagePreview(bmp) 
+            {
+                Visible = true
+            };
             for (int y = 0; y < imageSize.Height; y++)
             {
                 for (int x = 0; x < imageSize.Width; x++)
@@ -61,7 +63,7 @@ namespace FGK
             Material material = info.HitObject.Material;
             foreach (var light in world.Lights)
             {
-                //if (world.AnyObstacleBetween(info.HitPoint, light.Position)) { continue; }
+                if (world.AnyObstacleBetween(info.HitPoint, light.Position)) { continue; }
                 finalColor += material.Radiance(light, info);
             }
             return finalColor;

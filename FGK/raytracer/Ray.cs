@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    class Ray
+    public class Ray
     {
         public const double Epsilon = 0.00001;
         public const double Huge = double.MaxValue;
@@ -23,7 +23,7 @@ namespace FGK
         {
             return Origin + Direction * distance;
         }
-        public void checkHit(GeometricObject g)
+        public void CheckHit(GeometricObject g)
         {
             double distance = 0;
             Vector3 nil = new Vector3(0, 0, 0);

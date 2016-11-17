@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    class Vector3
+    public class Vector3
     {
         public double x;
         public double y;
@@ -36,6 +36,10 @@ namespace FGK
         public static Vector3 operator -(Vector3 vecA, Vector3 vecB)
         {
             return new Vector3(vecA.X - vecB.X, vecA.Y - vecB.Y, vecA.Z - vecB.Z);
+        }
+        public static Vector3 operator +(Vector3 vecA, double val)
+        {
+            return new Vector3(vecA.X +val, vecA.Y +val, vecA.Z +val);
         }
         public static Vector3 operator *(Vector3 vec, double val)
         {

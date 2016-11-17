@@ -35,6 +35,8 @@ namespace ObjParser.Types
 
             success = double.TryParse(data[2].Replace(".", ","), out y);
             if (!success) throw new ArgumentException("Could not parse Y parameter as double");
+            X = x;
+            Y = y;
         }
 
         public override string ToString()

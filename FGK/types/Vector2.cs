@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    class Vector2
+    public class Vector2
     {
         double x;
         double y;
@@ -19,5 +19,14 @@ namespace FGK
         { get { return x; } set { x = value; } }
         public double Y
         { get { return y; } set { y = value; } }
+
+        public static Vector2 operator *(Vector2 vec, double val)
+        {
+            return new Vector2(vec.X * val, vec.Y * val);
+        }
+        public static Vector2 operator +(Vector2 vecA, Vector2 vecB)
+        {
+            return new Vector2(vecA.X + vecB.X, vecA.Y + vecB.Y);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace FGK
             this.radius = radius;
             base.Material = mat;
         }
+
         public override bool HitTest(Ray ray, ref double minDistance, ref Vector3 outNormal)
         {
             double t;
@@ -35,8 +36,19 @@ namespace FGK
             { return false; }
             minDistance = t;
             Vector3 hitPoint = (ray.Origin + ray.Direction * t);
+            Vector3 localHitPoint = hitPoint - center;
             outNormal = (hitPoint - center).Normalized;
             minDistance = t;
+            double phi = Math.Atan2(localHitPoint.X,localHitPoint.Z);
+            double theta = Math.Acos(localHitPoint.Y/radius);
+            if (phi < 0)
+            {
+                phi += 2 * Math.PI;
+            }
+            double u = phi * (1 / (2*Math.PI));
+            double v = 1 - theta * (1 / Math.PI);
+            this.TextureCoords = new Vector2(1-u,1- v);
+           
             return true;
         }
 

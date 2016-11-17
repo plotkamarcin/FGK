@@ -18,10 +18,17 @@ namespace FGK
         [STAThread]
         static void Main(string[] args)
         {
+            Bitmap texture = new Bitmap("texture_triangle.jpg");
+            Bitmap textureLena = new Bitmap("lena.jpg");
+            Bitmap textureWorld = new Bitmap("world.jpg");
+            Color sampled = texture.GetPixel(0, 0);
+
             Material redMat = new PhongMaterial(Color.Red, 0.7, 8, 50);
             Material greenMat = new PhongMaterial(Color.Green, 0.7, 8, 50);
             Material blueMat = new PhongMaterial(Color.Blue, 0.7, 8, 50);
             Material grayMat = new PhongMaterial(Color.Gray, 0.7, 8, 50);
+            Material lenaMat = new PhongTexturedMaterial(Color.White, 1.0, 0.18, 10, ref textureLena);
+            Material worldMat = new PhongTexturedMaterial(Color.White, 1.0, 0.18, 10, ref textureWorld);
 
             Sphere s = new Sphere(new Vector3(0, 0, 0), 10.0,redMat);
             Ray r1 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 0, 20));
@@ -30,16 +37,16 @@ namespace FGK
 
             Plane plane = new Plane(new Vector3(0, 0, 0), new Vector3(0, 1, 1), redMat);
 
-            r1.checkHit(s);
-            r2.checkHit(s);
-            r3.checkHit(s);
-            r2.checkHit(plane);
+            r1.CheckHit(s);
+            r2.CheckHit(s);
+            r3.CheckHit(s);
+            r2.CheckHit(plane);
             World world = new World(Color.PowderBlue);
 
            // world.Add(new Sphere(new Vector3(0, 2, 2), 1, blueMat));
            // world.Add(new Sphere(new Vector3(2, 2, 6), 1, redMat));
-           // world.Add(new Sphere(new Vector3(-2, 2, 6), 1, greenMat));
-           //  world.Add(new Plane(new Vector3(0, -2, 0), new Vector3(0, 1, 0), grayMat));
+            world.Add(new Sphere(new Vector3(-2, 2, 6), 2, worldMat));
+            world.Add(new Plane(new Vector3(2, -2, 2), new Vector3(0, 1, 0), lenaMat));
             world.AddLight(new PointLight(new Vector3(0.1, 0, -5), Color.White));
             Obj parser = new Obj();
             parser.LoadObj("cone.obj");
@@ -51,14 +58,20 @@ namespace FGK
                 Vector3 p1 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Y);
                 Vector3 p2 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Y);
                 Vector3 p3 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Y);
-                externalMesh.triangles.Add(new Triangle(p1, p2, p3, new PhongMaterial(new ColorRgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)),0.01,0.18,10)));
-                externalMesh.triangles[i].setVertexNormals(new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Z),
+                externalMesh.triangles.Add(new Triangle(p1, p2, p3, new PhongTexturedMaterial(new ColorRgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)),1.0,0.18,10,ref texture)));
+
+                externalMesh.triangles[i].SetVertexNormals(new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Z),
                     new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].Z),
                     new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[2] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[2] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[2] - 1].Z));
+
+                externalMesh.triangles[i].SetTextureCoords(new Vector2(parser.TextureList[parser.FaceList[i].TextureVertexIndexList[0] - 1].X, parser.TextureList[parser.FaceList[i].TextureVertexIndexList[0] - 1].Y),
+                    new Vector2(parser.TextureList[parser.FaceList[i].TextureVertexIndexList[1] - 1].X, parser.TextureList[parser.FaceList[i].TextureVertexIndexList[1] - 1].Y),
+                    new Vector2(parser.TextureList[parser.FaceList[i].TextureVertexIndexList[2] - 1].X, parser.TextureList[parser.FaceList[i].TextureVertexIndexList[2] - 1].Y));
+                    
             }
             foreach (Triangle t in externalMesh.triangles)
             {
-                t.translateTriangle(1, 2, 1);
+                t.TranslateTriangle(1, 2, 1);
                 world.Add(t);
             }
 
