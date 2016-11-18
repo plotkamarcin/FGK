@@ -23,12 +23,14 @@ namespace FGK
             Bitmap textureWorld = new Bitmap("world.jpg");
             Color sampled = texture.GetPixel(0, 0);
 
-            Material redMat = new PhongMaterial(Color.Red, 0.7, 8, 50);
-            Material greenMat = new PhongMaterial(Color.Green, 0.7, 8, 50);
+            Material redMat = new PerfectDiffuse(Color.Red);
+            Material greenMat = new PerfectDiffuse(Color.Green);
             Material blueMat = new PhongMaterial(Color.Blue, 0.7, 8, 50);
             Material grayMat = new PhongMaterial(Color.Gray, 0.7, 8, 50);
             Material lenaMat = new PhongTexturedMaterial(Color.White, 1,0.8, 1, 3, ref textureLena);
             Material worldMat = new PhongTexturedMaterial(Color.White, 1,0.8, 1, 3, ref textureWorld);
+            Material reflectiveMat = new Reflective(Color.LightCoral, 0.4, 1, 300, 0.6);
+            Material transparentMat =new Transparent(Color.LightBlue, 0.1, 0, 0, 0.3, 1.05, 0.9);
 
             Sphere s = new Sphere(new Vector3(0, 0, 0), 10.0,redMat);
             Ray r1 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 0, 20));
@@ -43,8 +45,8 @@ namespace FGK
             r2.CheckHit(plane);
             World world = new World(Color.PowderBlue);
 
-           // world.Add(new Sphere(new Vector3(0, 2, 2), 1, blueMat));
-           // world.Add(new Sphere(new Vector3(2, 2, 6), 1, redMat));
+           // world.Add(new Sphere(new Vector3(0, 2, 2), 1, transparentMat));
+            //world.Add(new Sphere(new Vector3(2, 2, 6), 1, reflectiveMat));
             world.Add(new Sphere(new Vector3(-2, 2, 6), 2, worldMat));
             world.Add(new Plane(new Vector3(2, -2, 2), new Vector3(0, 1, 0), lenaMat));
             world.AddLight(new PointLight(new Vector3(0.1, 0, -5), Color.White));
@@ -71,7 +73,8 @@ namespace FGK
             }
             foreach (Triangle t in externalMesh.triangles)
             {
-                //t.TranslateTriangle(1, 2, 1);
+                t.TranslateTriangle(1, 2, 1);
+                //t.ScaleTriangle(0.07);
                 world.Add(t);
             }
 
@@ -80,7 +83,7 @@ namespace FGK
             // world.Add(new Plane(new Vector3(0, -2, 0), new Vector3(0, 1, 0), redMat));
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));
             Camera perspectiveCam = new Perspective(new Vector3(0, 0, -8), new Vector3(0, 0, 0), new Vector3(0, -1, 0), 2);
-            Raytracer tracer = new Raytracer();
+            Raytracer tracer = new Raytracer(5);
 
             Bitmap image = tracer.Raytrace(world, perspectiveCam, new Size(1024, 1024));
             image.Save("raytraced.png");

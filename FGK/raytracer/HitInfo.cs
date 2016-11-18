@@ -18,5 +18,7 @@ namespace FGK
         public Vector3 HitPoint { get; set; }
         /// <summary>Promień który trafił obiekt</summary>
         public Ray Ray { get; set; }
+        /// <summary>Zwiększana przy śledzeniu odbitego lub załamanego promienia</summary>
+        public int Depth { get; set; }
     }
 }

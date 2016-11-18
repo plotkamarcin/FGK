@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FGK
 {
-    abstract class Camera
+    public abstract class Camera
     {
        public abstract Ray GetRayTo(Vector2 relativeLocation);
     }

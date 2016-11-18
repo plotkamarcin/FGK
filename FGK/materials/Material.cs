@@ -8,6 +8,9 @@ namespace FGK
 {
     public abstract class Material
     {
-        public abstract ColorRgb Radiance(PointLight light, HitInfo hit);
+
+            public abstract ColorRgb Shade(Raytracer tracer, HitInfo hit);
+            public abstract ColorRgb Radiance(PointLight light, HitInfo hit);
+
     }
 }

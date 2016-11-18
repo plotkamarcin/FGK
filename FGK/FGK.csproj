@@ -49,6 +49,8 @@
     <Compile Include="materials\PerfectDiffuse.cs" />
     <Compile Include="materials\PhongTexturedMaterial.cs" />
     <Compile Include="materials\PhongMaterial.cs" />
+    <Compile Include="materials\Reflective.cs" />
+    <Compile Include="materials\Transparent.cs" />
     <Compile Include="objects\Mesh.cs" />
     <Compile Include="objects\PointLight.cs" />
     <Compile Include="objects\Triangle.cs" />
