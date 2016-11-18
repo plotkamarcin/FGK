@@ -10,20 +10,24 @@ namespace FGK
     public class PhongTexturedMaterial : PhongMaterial
     {
         Bitmap texture;
-        public PhongTexturedMaterial(ColorRgb materialColor, double diffuse, double specular,double specularExponent,ref Bitmap texture): base(materialColor, diffuse, specular, specularExponent)
+        double ambient;
+        public PhongTexturedMaterial(ColorRgb materialColor,double ambient, double diffuse, double specular,double specularExponent,ref Bitmap texture): base(materialColor, diffuse, specular, specularExponent)
         {
             this.texture = texture;
+            this.ambient = ambient;
         }
         public override ColorRgb Radiance(PointLight light, HitInfo hit)
         {
-           ColorRgb texelColor = texture.GetPixel((int)(hit.HitObject.TextureCoords.X * texture.Width), (int)(hit.HitObject.TextureCoords.Y * texture.Height));
-            Vector3 inDirection = (light.Position - hit.HitPoint).Normalized;
+            ColorRgb texelColor = texture.GetPixel((int)(hit.HitObject.TextureCoords.X * texture.Width), (int)(hit.HitObject.TextureCoords.Y * texture.Height));
+            Vector3 inDirection =(hit.HitPoint-light.Position).Normalized*(-1.0);
             double diffuseFactor = inDirection.Dot(hit.Normal);
-            if (diffuseFactor < 0) { return ColorRgb.Black; }
-            ColorRgb result = light.Color * texelColor * diffuseFactor * diffuseCoeff;
+            if (diffuseFactor < 0) {
+                return new ColorRgb(1, 0, 1);
+            }
+            ColorRgb result = (light.Color * ambient + texelColor) * diffuseFactor * diffuseCoeff;
             double phongFactor = PhongFactor(inDirection, hit.Normal, -hit.Ray.Direction);
             if (phongFactor != 0)
-            { result += texelColor * specular * phongFactor; }
+            { result +=  texelColor*specular * phongFactor; }
             return result;
         }
     }

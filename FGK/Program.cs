@@ -27,8 +27,8 @@ namespace FGK
             Material greenMat = new PhongMaterial(Color.Green, 0.7, 8, 50);
             Material blueMat = new PhongMaterial(Color.Blue, 0.7, 8, 50);
             Material grayMat = new PhongMaterial(Color.Gray, 0.7, 8, 50);
-            Material lenaMat = new PhongTexturedMaterial(Color.White, 1.0, 0.18, 10, ref textureLena);
-            Material worldMat = new PhongTexturedMaterial(Color.White, 1.0, 0.18, 10, ref textureWorld);
+            Material lenaMat = new PhongTexturedMaterial(Color.White, 1,0.8, 1, 3, ref textureLena);
+            Material worldMat = new PhongTexturedMaterial(Color.White, 1,0.8, 1, 3, ref textureWorld);
 
             Sphere s = new Sphere(new Vector3(0, 0, 0), 10.0,redMat);
             Ray r1 = new Ray(new Vector3(0, 0, -20), new Vector3(0, 0, 20));
@@ -58,7 +58,7 @@ namespace FGK
                 Vector3 p1 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Y);
                 Vector3 p2 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Y);
                 Vector3 p3 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Y);
-                externalMesh.triangles.Add(new Triangle(p1, p2, p3, new PhongTexturedMaterial(new ColorRgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)),1.0,0.18,10,ref texture)));
+                externalMesh.triangles.Add(new Triangle(p1, p2, p3, new PhongTexturedMaterial(new ColorRgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)),1,0.8,1,3,ref texture)));
 
                 externalMesh.triangles[i].SetVertexNormals(new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Z),
                     new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].Z),
@@ -71,7 +71,7 @@ namespace FGK
             }
             foreach (Triangle t in externalMesh.triangles)
             {
-                t.TranslateTriangle(1, 2, 1);
+                //t.TranslateTriangle(1, 2, 1);
                 world.Add(t);
             }
 

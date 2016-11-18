@@ -24,6 +24,8 @@ namespace FGK
         { return new ColorRgb(col1.R + col2.R, col1.G + col2.G, col1.B + col2.B); }
         public static ColorRgb operator +(ColorRgb col1, double val)
         { return new ColorRgb(col1.R + val, col1.G + val, col1.B + val); }
+        public static ColorRgb operator -(ColorRgb col1, double val)
+        { return new ColorRgb(col1.R - val, col1.G - val, col1.B - val); }
         public static ColorRgb operator *(ColorRgb col1, double val)
         { return new ColorRgb(col1.R * val, col1.G * val, col1.B * val); }
         public static ColorRgb operator *(ColorRgb col1, ColorRgb col2)
