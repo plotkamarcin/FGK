@@ -116,8 +116,8 @@ namespace FGK
             double tdist = v0v2.Dot(qvec) * invDet;
             distance = t;
 
-            Vector3 N = (N1 * u + N2 * v + N3 * (1 - u - v)).Normalized;
-            this.TextureCoords = (Vt1 * u + Vt2 * v + Vt3 * (1 - u - v));
+            Vector3 N = (N1 * (1 - u - v) + N2 * u + N3 *v ).Normalized;
+            this.TextureCoords = (Vt1 * (1 - u - v) + Vt2 * u + Vt3 * v);
             Vector3 hitPoint = new Vector3(0, 0, 0);
             hitPoint = P1 * u + P2 * v + P3 * (1 - u - v);
             //v = α*va + β*vb + (1 - α - β)*vc
