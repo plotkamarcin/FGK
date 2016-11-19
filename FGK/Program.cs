@@ -18,7 +18,7 @@ namespace FGK
         [STAThread]
         static void Main(string[] args)
         {
-            Bitmap texture = new Bitmap("texture_triangle.jpg");
+            Bitmap texture = new Bitmap("texture_cone.png");
             Bitmap textureLena = new Bitmap("lena.jpg");
             Bitmap textureWorld = new Bitmap("world.jpg");
             Color sampled = texture.GetPixel(0, 0);
@@ -49,7 +49,7 @@ namespace FGK
             //world.Add(new Sphere(new Vector3(2, 2, 6), 1, reflectiveMat));
             world.Add(new Sphere(new Vector3(-2, 2, 6), 2, worldMat));
             world.Add(new Plane(new Vector3(2, -2, 2), new Vector3(0, 1, 0), lenaMat));
-            world.AddLight(new PointLight(new Vector3(0.1, 0, -5), Color.White));
+            world.AddLight(new PointLight(new Vector3(0, 0, -5), Color.White));
             Obj parser = new Obj();
             parser.LoadObj("cone.obj");
             Mesh externalMesh = new Mesh();
@@ -57,10 +57,10 @@ namespace FGK
             Random rnd = new Random();
             for (int i = 0; i < parser.FaceList.Count; i++)
             {
-                Vector3 p1 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Y);
-                Vector3 p2 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Y);
-                Vector3 p3 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Z, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Y);
-                externalMesh.triangles.Add(new Triangle(p1, p2, p3, new PhongTexturedMaterial(new ColorRgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)),1,0.8,1,3,ref texture)));
+                Vector3 p1 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[0] - 1].Z);
+                Vector3 p2 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[1] - 1].Z);
+                Vector3 p3 = new Vector3(parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].X, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Y, parser.VertexList[parser.FaceList[i].VertexIndexList[2] - 1].Z);
+                externalMesh.triangles.Add(new Triangle(p1, p2, p3, new PhongTexturedMaterial(new ColorRgb(rnd.Next(0,256), rnd.Next(0, 256), rnd.Next(0, 256)),1, 0.8, 1, 1, ref texture)));
 
                 externalMesh.triangles[i].SetVertexNormals(new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[0] - 1].Z),
                     new Vector3(parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].X, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].Y, parser.NormalsList[parser.FaceList[i].NormalsVertexIndexList[1] - 1].Z),
@@ -73,12 +73,11 @@ namespace FGK
             }
             foreach (Triangle t in externalMesh.triangles)
             {
-                t.TranslateTriangle(1, 2, 1);
-                //t.ScaleTriangle(0.07);
+                t.TranslateTriangle(2, 2, 1);
+                t.ScaleTriangle(0.75);
                 world.Add(t);
             }
 
-           // world.Add(externalMesh.triangles[3]);
             //world.Add(new Triangle(new Vector3(0.0, -2.0, 2.0), new Vector3(2.0, -6.0, 6.0), new Vector3(-2.0, -3.0, 6.0), new PhongMaterial(new ColorRgb(255,0,0),0.8,1,30)));
             // world.Add(new Plane(new Vector3(0, -2, 0), new Vector3(0, 1, 0), redMat));
             Camera camera = new Orthogonal(new Vector3(0, 0, -5), 0, new Vector2(5, 5));

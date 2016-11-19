@@ -21,9 +21,7 @@ namespace FGK
             ColorRgb texelColor = texture.GetPixel((int)(hit.HitObject.TextureCoords.X * texture.Width), (int)(hit.HitObject.TextureCoords.Y * texture.Height));
             Vector3 inDirection =(hit.HitPoint-light.Position).Normalized*(-1.0);
             double diffuseFactor = inDirection.Dot(hit.Normal);
-            if (diffuseFactor < 0) {
-                return new ColorRgb(1, 0, 1);
-            }
+            if (diffuseFactor < 0) { return ColorRgb.Black; }           
             ColorRgb result = (light.Color * ambient + texelColor) * diffuseFactor * diffuseCoeff;
             double phongFactor = PhongFactor(inDirection, hit.Normal, -hit.Ray.Direction);
             if (phongFactor != 0)

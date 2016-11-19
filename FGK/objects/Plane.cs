@@ -13,7 +13,7 @@ namespace FGK
         /// <summary>Punkt przez który płaszczyzna przechodzi</summary>
         Vector3 point;
         /// <summary>Normalna do płaszczyzny</summary>
-        Vector3 normal;
+        public Vector3 normal;
         public Plane(Vector3 point, Vector3 normal, Material mat)
         {
             this.point = point;

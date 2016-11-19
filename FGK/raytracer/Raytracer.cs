@@ -67,7 +67,7 @@ namespace FGK
             Material material = info.HitObject.Material;
             foreach (var light in world.Lights)
             {
-                if (world.AnyObstacleBetween(info.HitPoint, light.Position)) { continue; }
+                //if (world.AnyObstacleBetween(info.HitPoint, light.Position)) { continue; }
                 finalColor += material.Radiance(light, info);
             }
             return finalColor;
@@ -93,91 +93,5 @@ namespace FGK
             (int)(colorInfo.B * 255));
         }
 
-        //private Color AdaptiveAliasing(Camera c, World w, Vector2 A, Vector2 B, Vector2 C, Vector2 D, Color color, int samplesDepth)
-        //{
-
-        //Vector2 middlePoint = new Vector2((A.X + B.X) / 2, (C.Y + D.Y) /2);
-        //Ray ray0 = c.GetRayTo(middlePoint);
-        //Ray rayA = c.GetRayTo(A);
-        //Ray rayB = c.GetRayTo(B);
-        //Ray rayC = c.GetRayTo(C);
-        //Ray rayD = c.GetRayTo(D);
-
-        //HitInfo info0 = w.TraceRay(ray0);
-        //HitInfo infoA = w.TraceRay(rayA);
-        //HitInfo infoB = w.TraceRay(rayB);
-        //HitInfo infoC = w.TraceRay(rayC);
-        //HitInfo infoD = w.TraceRay(rayD);
-
-        //Color color0;
-        //Color colorA;
-        //Color colorB;
-        //Color colorC;
-        //Color colorD;
-
-
-        //if (info0.HitObject) { color0 = info0.Color; }
-        //else { color0 = w.BackgroundColor; }
-        //if (infoA.HitObject) { colorA = infoA.Color; }
-        //else { colorA = w.BackgroundColor; }
-        //if (infoB.HitObject) { colorB = infoB.Color; }
-        //else { colorB = w.BackgroundColor; }
-        //if (infoC.HitObject) { colorC = infoC.Color; }
-        //else { colorC = w.BackgroundColor; }
-        //if (infoD.HitObject) { colorD = infoD.Color; }
-        //else { colorD = w.BackgroundColor; }
-
-
-        //if (samplesDepth == 0 || color0.Equals(colorA) && color0.Equals(colorB) && color0.Equals(colorC) && color0.Equals(colorD))
-        //{
-        //    Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
-        //    Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
-        //    Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
-        //    Color tmp4 = Color.FromArgb((colorD.R + color0.R) / 2, (colorD.G + color0.G) / 2, (colorD.B + color0.B) / 2);
-        //    Color sum = Color.FromArgb((tmp1.R + tmp2.R + tmp3.R + tmp4.R) / 4, (tmp1.G + tmp2.G + tmp3.G + tmp4.G) / 4, (tmp1.B + tmp2.B + tmp3.B + tmp4.B) / 4);
-        //    return sum;
-        //}
-        //else
-        //{
-        //    if (!(colorA.Equals(color.B) && colorA.Equals(colorD)))
-        //    {
-        //        Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
-        //        Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
-        //        Color tmp4 = Color.FromArgb((colorD.R + color0.R) / 2, (colorD.G + color0.G) / 2, (colorD.B + color0.B) / 2);
-        //        Color sum = Color.FromArgb((tmp1.R + tmp2.R + color.R + tmp4.R) / 4, (tmp1.G + tmp2.G + color.G + tmp4.G) / 4, (tmp1.B + tmp2.B + color.B + tmp4.B) / 4);
-        //        return AdaptiveAliasing(c, w, A, new Vector2((A.X + B.X) / 2, A.Y), middlePoint, new Vector2(A.X, (A.Y + D.Y) / 2), sum, samplesDepth - 1);
-        //    }
-        //    if (!(colorB.Equals(color.A) && colorB.Equals(colorC)))
-        //    {
-        //        Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
-        //        Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
-        //        Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
-        //        Color sum = Color.FromArgb((tmp1.R + tmp2.R + tmp3.R + color.R) / 4, (tmp1.G + tmp2.G + tmp3.G + color.G) / 4, (tmp1.B + tmp2.B + tmp3.B + color.B) / 4);
-        //        return  AdaptiveAliasing(c, w, new Vector2((A.X + B.X) / 2, A.Y), B, new Vector2(C.X, (C.Y + B.Y) / 2), middlePoint, sum, samplesDepth - 1);
-        //    }
-        //    if (!(colorC.Equals(colorB) && !colorB.Equals(colorD)))
-        //    {
-        //        Color tmp2 = Color.FromArgb((colorB.R + color0.R) / 2, (colorB.G + color0.G) / 2, (colorB.B + color0.B) / 2);
-        //        Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
-        //        Color tmp4 = Color.FromArgb((colorD.R + color0.R) / 2, (colorD.G + color0.G) / 2, (colorD.B + color0.B) / 2);
-        //        Color sum = Color.FromArgb((color.R + tmp2.R + tmp3.R + tmp4.R) / 4, (color.G + tmp2.G + tmp3.G + tmp4.G) / 4, (color.B + tmp2.B + tmp3.B + tmp4.B) / 4);
-        //       return  AdaptiveAliasing(c, w, middlePoint, new Vector2(B.X, (B.Y + C.Y) / 2), C, new Vector2((C.X + D.X) / 2, C.Y), sum, samplesDepth - 1);
-
-        //    }
-        //    if (!(colorD.Equals(colorA) && !colorD.Equals(colorC)))
-        //    {
-        //        Color tmp1 = Color.FromArgb((colorA.R + color0.R) / 2, (colorA.G + color0.G) / 2, (colorA.B + color0.B) / 2);
-        //        Color tmp3 = Color.FromArgb((colorC.R + color0.R) / 2, (colorC.G + color0.G) / 2, (colorC.B + color0.B) / 2);
-        //        Color tmp4 = Color.FromArgb((colorD.R + color0.R) / 2, (colorD.G + color0.G) / 2, (colorD.B + color0.B) / 2);
-        //        Color sum = Color.FromArgb((tmp1.R + color.R + tmp3.R + tmp4.R) / 4, (tmp1.G + color.G + tmp3.G + tmp4.G) / 4, (tmp1.B + color.B + tmp3.B + tmp4.B) / 4);
-        //        return AdaptiveAliasing(c, w, new Vector2(D.X / 2, (A.Y + D.Y) / 2), middlePoint, new Vector2((C.X + D.X) / 2, D.Y), D, sum, samplesDepth - 1);
-        //    }
-        //    else
-        //    {
-        //        return Color.Black;
-        //    }
-
-        //}
-        //}
     }
 }
