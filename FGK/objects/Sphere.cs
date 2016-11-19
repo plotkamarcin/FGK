@@ -30,9 +30,9 @@ namespace FGK
             double discSq = Math.Sqrt(disc);
             double denom = 2 * a;
             t = (-b - discSq) / denom;
-            if (t < 0)
+            if (t < 0.0001)
             { t = (-b + discSq) / denom; }
-            if (t < 0)
+            if (t < 0.0001)
             { return false; }
             minDistance = t;
             Vector3 hitPoint = (ray.Origin + ray.Direction * t);

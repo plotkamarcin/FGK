@@ -139,10 +139,6 @@ namespace FGK
 
             double d = Normal.Dot(P1);
             double t = -(Normal.Dot(ray.Origin) + d) / Normal.Dot(ray.Direction);
-            Vector3 hitPoint = ray.Origin + ray.Direction * t;
-            Vector3 hitPointVector = hitPoint - P1;
-            Vector3 hitPointNormal = Vector3.Cross(hitPointVector, ray.Direction);
-
 
             // if the determinant is negative the triangle is backfacing
             // if the determinant is close to 0, the ray misses the triangle
