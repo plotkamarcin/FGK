@@ -16,10 +16,11 @@ namespace FGK
             this.texture = texture;
             this.ambient = ambient;
         }
-        public override ColorRgb Radiance(PointLight light, HitInfo hit)
+        public override ColorRgb Radiance(Light light, HitInfo hit)
         {
             ColorRgb texelColor = texture.GetPixel((int)(hit.HitObject.TextureCoords.X * texture.Width), (int)(hit.HitObject.TextureCoords.Y * texture.Height));
-            Vector3 inDirection =(hit.HitPoint-light.Position).Normalized*(-1.0);
+            Vector3 lightPos = light.Sample();
+            Vector3 inDirection = (lightPos - hit.HitPoint).Normalized*(-1.0);
             double diffuseFactor = inDirection.Dot(hit.Normal);
             if (diffuseFactor < 0) { return ColorRgb.Black; }           
             ColorRgb result = (light.Color * ambient + texelColor) * diffuseFactor * diffuseCoeff;
@@ -33,10 +34,11 @@ namespace FGK
             ColorRgb totalColor = texture.GetPixel((int)(hit.HitObject.TextureCoords.X * texture.Width), (int)(hit.HitObject.TextureCoords.Y * texture.Height));
             foreach (var light in hit.World.Lights)
             {
-                Vector3 inDirection = (light.Position - hit.HitPoint).Normalized;
+                Vector3 lightPos = light.Sample();
+                Vector3 inDirection = (lightPos - hit.HitPoint).Normalized;
                 double diffuseFactor = inDirection.Dot(hit.Normal);
                 if (diffuseFactor < 0) { continue; }
-                if (hit.World.AnyObstacleBetween(hit.HitPoint, light.Position))
+                if (hit.World.AnyObstacleBetween(hit.HitPoint, lightPos))
                 { continue; }
                 ColorRgb result = light.Color * materialColor * diffuseFactor * diffuseCoeff;
                 double phongFactor = PhongFactor(inDirection, hit.Normal, -hit.Ray.Direction);

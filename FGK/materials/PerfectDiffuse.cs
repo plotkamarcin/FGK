@@ -14,24 +14,25 @@ namespace FGK
             this.materialColor = materialColor;
         }
 
-        public override ColorRgb Radiance(PointLight light, HitInfo hit)
+        public override ColorRgb Radiance(Light light, HitInfo hit)
         {
-            Vector3 inDirection = (light.Position - hit.HitPoint).Normalized;
+            Vector3 lightPos = light.Sample();
+            Vector3 inDirection = (lightPos - hit.HitPoint).Normalized;
             double diffuseFactor = inDirection.Dot(hit.Normal);
             if (diffuseFactor < 0) { return ColorRgb.Black; }
             return light.Color * materialColor * diffuseFactor;
         }
         public override ColorRgb Shade(Raytracer tracer, HitInfo hit)
         {
-            ColorRgb totalColor = ColorRgb.Black;
+            ColorRgb totalColor = this.materialColor;
             foreach (var light in hit.World.Lights)
             {
-                Vector3 inDirection = (light.Position - hit.HitPoint).Normalized;
+                Vector3 lightPos = light.Sample();
+                Vector3 inDirection = (lightPos - hit.HitPoint).Normalized;
                 double diffuseFactor = inDirection.Dot(hit.Normal);
                 if (diffuseFactor < 0) { continue; }
-                if (hit.World.AnyObstacleBetween(hit.HitPoint, light.Position))
+                if (hit.World.AnyObstacleBetween(hit.HitPoint, lightPos))
                 { continue; }
-                totalColor += light.Color * materialColor * diffuseFactor;
             }
             return totalColor;
         }

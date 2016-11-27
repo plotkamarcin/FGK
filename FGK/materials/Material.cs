@@ -10,7 +10,7 @@ namespace FGK
     {
 
             public abstract ColorRgb Shade(Raytracer tracer, HitInfo hit);
-            public abstract ColorRgb Radiance(PointLight light, HitInfo hit);
+            public abstract ColorRgb Radiance(Light light, HitInfo hit);
 
     }
 }

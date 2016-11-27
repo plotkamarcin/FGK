@@ -23,9 +23,10 @@ namespace FGK
             this.specular = specular;
             this.specularExponent = specularExponent;
         }
-        public override ColorRgb Radiance(PointLight light, HitInfo hit)
+        public override ColorRgb Radiance(Light light, HitInfo hit)
         {
-            Vector3 inDirection = (light.Position - hit.HitPoint).Normalized;
+            Vector3 lightPos = light.Sample();
+            Vector3 inDirection = (lightPos - hit.HitPoint).Normalized;
             double diffuseFactor = inDirection.Dot(hit.Normal);
             if (diffuseFactor < 0) { return ColorRgb.Black; }
             ColorRgb result = light.Color * materialColor * diffuseFactor * diffuseCoeff;
@@ -47,18 +48,19 @@ namespace FGK
             ColorRgb totalColor = ColorRgb.Black;
             foreach (var light in hit.World.Lights)
             {
-                Vector3 inDirection = (light.Position - hit.HitPoint).Normalized;
+                Vector3 lightPos = light.Sample();
+                Vector3 inDirection = (lightPos - hit.HitPoint).Normalized;
                 double diffuseFactor = inDirection.Dot(hit.Normal);
                 if (diffuseFactor < 0) { continue; }
-            if (hit.World.AnyObstacleBetween(hit.HitPoint, light.Position))
-            { continue; }
-            ColorRgb result = light.Color * materialColor * diffuseFactor * diffuseCoeff;
-            double phongFactor = PhongFactor(inDirection, hit.Normal, -hit.Ray.Direction);
-            if (phongFactor != 0)
-            { result += materialColor * specular * phongFactor; }
-            totalColor += result;
-        }
-return totalColor;
+                if (hit.World.AnyObstacleBetween(hit.HitPoint, lightPos))
+                { continue; }
+                ColorRgb result = light.Color * materialColor * diffuseFactor * diffuseCoeff;
+                double phongFactor = PhongFactor(inDirection, hit.Normal, -hit.Ray.Direction);
+                if (phongFactor != 0)
+                { result += materialColor * specular * phongFactor; }
+                totalColor += result;
+            }
+            return totalColor;
         }
     }
 }

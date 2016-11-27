@@ -34,7 +34,7 @@ namespace FGK
             return radiance;
         }
 
-        public override ColorRgb Radiance(PointLight light, HitInfo hit)
+        public override ColorRgb Radiance(Light light, HitInfo hit)
         {
             throw new NotImplementedException();
         }

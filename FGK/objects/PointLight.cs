@@ -8,6 +8,7 @@ namespace FGK
 {
     public class PointLight
     {
+
         public PointLight(Vector3 position, ColorRgb color)
         {
             this.Position = position;

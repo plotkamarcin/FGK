@@ -10,22 +10,28 @@ namespace FGK
    public class World
     {
         List<GeometricObject> objects;
-        List<PointLight> lights;
+        List<PointLight> pointlights;
+        List<Light> lights;
 
         public World(Color background)
         {
             this.BackgroundColor = background;
             this.objects = new List<GeometricObject>();
-            this.lights = new List<PointLight>();
+            this.lights = new List<Light>();
+            this.pointlights = new List<PointLight>();
         }
 
         public void Add(GeometricObject obj)
         {
             objects.Add(obj);
         }
-        public void AddLight(PointLight light)
+        public void AddLight(Light light)
         {
             lights.Add(light);
+        }
+        public void AddLight(PointLight light)
+        {
+            pointlights.Add(light);
         }
         public HitInfo TraceRay(Ray ray)
         {
@@ -77,6 +83,6 @@ namespace FGK
 
         public ColorRgb BackgroundColor { get; private set; }
         public List<GeometricObject> Objects { get { return objects; } }
-        public List<PointLight> Lights { get { return lights; } }
+        public List<Light> Lights { get { return lights; } }
     }
 }

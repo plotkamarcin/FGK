@@ -16,6 +16,13 @@ namespace FGK
         }
         public Bitmap Raytrace(World world, Camera camera, Size imageSize)
         {
+            Sampler singleSample = new Sampler(
+            new Jittered(1,0), new SquareDistribution(),1, 100);
+            return Raytrace(world, camera, imageSize, singleSample);
+        }
+
+        public Bitmap Raytrace(World world, Camera camera, Size imageSize, Sampler sampler)
+        {
 
             Bitmap bmp = new Bitmap(imageSize.Width, imageSize.Height);
             RenderedImagePreview r = new RenderedImagePreview(bmp)
@@ -26,25 +33,23 @@ namespace FGK
             {
                 for (int x = 0; x < imageSize.Width; x++)
                 {
-                    // przeskalowanie x i y do zakresu [-1; 1]
-                    Vector2 pictureCoordinates = new Vector2(
-                        (x / (double)imageSize.Width) * 2 - 1,
-                        (y / (double)imageSize.Height) * 2 - 1);
-
-                    // wysłanie promienia i sprawdzenie w co właściwie trafił
-                    Ray ray = camera.GetRayTo(pictureCoordinates);
-                    HitInfo info = world.TraceRay(ray);
+                    ColorRgb totalColor = ColorRgb.Black;
+                    for (int i = 0; i < sampler.SampleCount; i++)
+                    {
+                        Vector2 sample = sampler.Single(); // pobierz próbkę
+                        Vector2 pictureCoordinates = new Vector2( // oblicz kierunek
+                        ((x + sample.X) / (double)imageSize.Width) * 2 - 1,
+                        ((y + sample.Y) / (double)imageSize.Height) * 2 - 1);
+                        Ray ray = camera.GetRayTo(pictureCoordinates);
+                        totalColor += ShadeRay(world, ray, 0) / (double)sampler.SampleCount;
+                    }
 
                     // ustawienie odpowiedniego koloru w obrazie wynikowym
-                    Color color;
                     //if (info.HitObject) { color = info.Color; }
                     // else { color = world.BackgroundColor; }
                     double searchArea = 0.001;
-                    bmp.SetPixel(x, y, StripColor(ShadeRay(world, ray)));
-                    Vector2 A = new Vector2(pictureCoordinates.X + searchArea, pictureCoordinates.Y + searchArea);
-                    Vector2 B = new Vector2(pictureCoordinates.X - searchArea, pictureCoordinates.Y + searchArea);
-                    Vector2 C = new Vector2(pictureCoordinates.X - searchArea, pictureCoordinates.Y - searchArea);
-                    Vector2 D = new Vector2(pictureCoordinates.X + searchArea, pictureCoordinates.Y - searchArea);
+                    bmp.SetPixel(x, y, StripColor(totalColor));
+                    
 
                     //Color aliasedColor = AdaptiveAliasing(camera, world, A, B, C, D,color, 0);
                     //bmp.SetPixel(x, y, color);

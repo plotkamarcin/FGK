@@ -72,7 +72,7 @@ double eta, double cosTransmittedAngle, double cosIncidentAngle)
             return refractionCoeff < 0;
         }
 
-        public override ColorRgb Radiance(PointLight light, HitInfo hit)
+        public override ColorRgb Radiance(Light light, HitInfo hit)
         {
             throw new NotImplementedException();
         }
